@@ -12,10 +12,13 @@ ENV PYTHONUNBUFFERED=1
 RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ \
     && pip config set global.trusted-host pypi.tuna.tsinghua.edu.cn
 
-# 配置apt中国镜像源（更强制的方法）
-RUN echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm main contrib non-free non-free-firmware" > /etc/apt/sources.list && \
+# 配置apt中国镜像源（完全替换方法）
+RUN rm -rf /etc/apt/sources.list.d/* && \
+    echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm main contrib non-free non-free-firmware" > /etc/apt/sources.list && \
     echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm-updates main contrib non-free non-free-firmware" >> /etc/apt/sources.list && \
-    echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security main contrib non-free non-free-firmware" >> /etc/apt/sources.list
+    echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security main contrib non-free non-free-firmware" >> /etc/apt/sources.list && \
+    find /etc/apt -name "*.list" -exec sed -i 's|http://deb.debian.org|https://mirrors.tuna.tsinghua.edu.cn|g' {} \; && \
+    find /etc/apt -name "*.list" -exec sed -i 's|http://security.debian.org|https://mirrors.tuna.tsinghua.edu.cn|g' {} \;
 
 # 安装系统依赖
 RUN apt-get update \
