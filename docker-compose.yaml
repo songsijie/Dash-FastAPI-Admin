@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  # 后端FastAPI服务
+  backend:
+    build:
+      context: .
+      dockerfile: ./dash-fastapi-backend/Dockerfile
+    container_name: dash-fastapi-backend
+    restart: always
+    command: ["python", "app.py", "--env=dev"]
+    ports:
+      - "9099:9099"
+    volumes:
+      - ./dash-fastapi-backend:/app
+    environment:
+      - PYTHONPATH=/app
+    networks:
+      - dash-network
+
+  # 前端Dash服务  
+  frontend:
+    build:
+      context: .
+      dockerfile: ./dash-fastapi-frontend/Dockerfile
+    container_name: dash-fastapi-frontend
+    restart: always
+    command: ["python", "app.py", "--env=dev"]
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./dash-fastapi-frontend:/app
+    environment:
+      - PYTHONPATH=/app
+    depends_on:
+      - backend
+    networks:
+      - dash-network
+
+networks:
+  dash-network:
+    driver: bridge

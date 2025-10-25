@@ -39,7 +39,7 @@ def render():
                                             className='ant-pro-form-login-header',
                                         ),
                                         html.Div(
-                                            f'{AppConfig.app_name} 是 Dash 中最完备的中后台管理系统',
+                                            f'{AppConfig.app_name} 中后台管理系统',
                                             className='ant-pro-form-login-desc ',
                                         ),
                                     ],
