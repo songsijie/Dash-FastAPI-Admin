@@ -23,8 +23,6 @@ RUN if [ -f /etc/apt/sources.list ]; then \
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         gcc \
-        g++ \
-        curl \
         build-essential \
         python3-dev \
         libffi-dev \
@@ -34,7 +32,6 @@ RUN apt-get update \
 # 复制依赖文件并安装Python依赖
 COPY ../requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir cython \
     && pip install --no-cache-dir -r requirements.txt
 
 # 复制应用代码

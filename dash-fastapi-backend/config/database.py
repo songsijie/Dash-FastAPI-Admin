@@ -6,7 +6,7 @@ from urllib.parse import quote_plus
 from config.env import DataBaseConfig
 
 ASYNC_SQLALCHEMY_DATABASE_URL = (
-    f'mysql+asyncmy://{DataBaseConfig.db_username}:{quote_plus(DataBaseConfig.db_password)}@'
+    f'mysql+aiomysql://{DataBaseConfig.db_username}:{quote_plus(DataBaseConfig.db_password)}@'
     f'{DataBaseConfig.db_host}:{DataBaseConfig.db_port}/{DataBaseConfig.db_database}'
 )
 if DataBaseConfig.db_type == 'postgresql':

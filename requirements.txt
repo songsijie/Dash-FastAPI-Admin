@@ -1,6 +1,5 @@
 APScheduler==3.10.4
-Cython>=0.29.0
-asyncmy==0.2.9
+aiomysql==0.2.0
 bcrypt==4.3.0
 cachebox==4.2.3
 dash==2.18.2
