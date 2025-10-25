@@ -8,23 +8,27 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# 安装系统依赖
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        gcc \
-        g++ \
-        curl \
-        build-essential \
-        python3-dev \
-        libffi-dev \
-        libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
+# # 配置apt源为国内镜像
+# RUN sed -i 's|http://deb.debian.org/debian|http://mirrors.ustc.edu.cn/debian|g' /etc/apt/sources.list \
+#     && sed -i 's|http://security.debian.org/debian-security|http://mirrors.ustc.edu.cn/debian-security|g' /etc/apt/sources.list
 
-# 复制依赖文件并安装Python依赖
-COPY ../requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir cython \
-    && pip install --no-cache-dir -r requirements.txt
+# # 安装系统依赖
+# RUN apt-get update \
+#     && apt-get install -y --no-install-recommends \
+#         gcc \
+#         g++ \
+#         curl \
+#         build-essential \
+#         python3-dev \
+#         libffi-dev \
+#         libssl-dev \
+#     && rm -rf /var/lib/apt/lists/*
+
+# # 复制依赖文件并安装Python依赖
+# COPY ../requirements.txt .
+# RUN pip install --no-cache-dir --upgrade pip \
+#     && pip install --no-cache-dir cython \
+#     && pip install --no-cache-dir -r requirements.txt
 
 # 复制应用代码
 COPY . .
