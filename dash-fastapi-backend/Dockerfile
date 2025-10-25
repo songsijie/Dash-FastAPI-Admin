@@ -8,16 +8,14 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# 配置pip国内源
-RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ \
-    && pip config set global.trusted-host mirrors.aliyun.com
+# 配置pip中国镜像源
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ \
+    && pip config set global.trusted-host pypi.tuna.tsinghua.edu.cn
 
-# 配置apt国内源（兼容性更好的方法）
-RUN if [ -f /etc/apt/sources.list ]; then \
-        cp /etc/apt/sources.list /etc/apt/sources.list.bak && \
-        sed -i 's|http://deb.debian.org/debian|http://mirrors.aliyun.com/debian|g' /etc/apt/sources.list && \
-        sed -i 's|http://security.debian.org/debian-security|http://mirrors.aliyun.com/debian-security|g' /etc/apt/sources.list; \
-    fi
+# 配置apt中国镜像源（更强制的方法）
+RUN echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm main contrib non-free non-free-firmware" > /etc/apt/sources.list && \
+    echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm-updates main contrib non-free non-free-firmware" >> /etc/apt/sources.list && \
+    echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security main contrib non-free non-free-firmware" >> /etc/apt/sources.list
 
 # 安装系统依赖
 RUN apt-get update \
